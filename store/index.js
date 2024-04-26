@@ -19,10 +19,12 @@ export const state = () => ({
 })
 
 export const getters = {
-  title: state => state.title,
+  from: state => state.dateRange[0] && new Date(state.dateRange[0]).toISOString(),
+  to: state => state.dateRange[1] && new Date(state.dateRange[1]).toISOString(),
   loading: (state) => {
     return state.loading
   },
+  deviceIds: state => state.devices.map(d => `deviceId=${d.id}`).join('&'),
   dateRange: (state) => {
     return state.dateRange
   },
@@ -77,7 +79,7 @@ export const mutations = {
   setDateRange (state, dateRange) {
     state.dateRange = dateRange
   },
-  setDevices (state, devices) {
+  SET_DEVICES (state, devices) {
     state.devices = devices
   },
   setGroups (state, groups) {
@@ -120,4 +122,7 @@ export const mutations = {
 }
 
 export const actions = {
+  async initData ({ commit }) {
+    commit('SET_DEVICES', await this.$axios.$get('devices'))
+  }
 }

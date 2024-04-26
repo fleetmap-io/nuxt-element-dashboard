@@ -31,7 +31,7 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'DefaultLayout',
   async fetch () {
-    // await this.$store.dispatch('initData')
+    await this.$store.dispatch('initData')
   },
   computed: {
     ...mapGetters(['user', 'title', 'email']),

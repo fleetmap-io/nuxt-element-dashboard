@@ -1,5 +1,6 @@
 <template>
   <Bar
+    v-loading="loading"
     :chart-options="chartOptions"
     :chart-data="chartData"
     :chart-id="chartId"
@@ -14,9 +15,7 @@
 
 <script>
 import { Bar } from 'vue-chartjs'
-import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
-
-ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'BarChart',
@@ -53,12 +52,32 @@ export default {
   },
   data () {
     return {
+      loading: true,
       chartData: {
         labels: ['January', 'February', 'March'],
         datasets: [{ data: [40, 20, 12] }]
       },
       chartOptions: {
         responsive: true
+      }
+    }
+  },
+  computed: {
+    ...mapGetters(['deviceIds', 'from', 'to'])
+  },
+  watch: {
+    deviceIds () {
+      this.get()
+    },
+    from () {
+      this.get()
+    }
+  },
+  methods: {
+    get () {
+      if (this.deviceIds && this.from && this.to) {
+        const url = `reports/events?${this.deviceIds}&from=${this.from}&to=${this.to}`
+        this.$axios.$get(url)
       }
     }
   }

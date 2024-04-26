@@ -1,5 +1,7 @@
 <template>
-  <dashbord-component />
+  <div>
+    <dashbord-component />
+  </div>
 </template>
 <script>
 import DashbordComponent from '@/components/dashboard.vue'
