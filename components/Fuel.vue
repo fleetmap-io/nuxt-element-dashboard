@@ -1,6 +1,5 @@
 <template>
-  <Bar
-    v-loading="loading"
+  <LineChartGenerator
     :chart-options="chartOptions"
     :chart-data="chartData"
     :chart-id="chartId"
@@ -14,16 +13,18 @@
 </template>
 
 <script>
-import { Bar } from 'vue-chartjs'
+import { Line as LineChartGenerator } from 'vue-chartjs/legacy'
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'BarChart',
-  components: { Bar },
+  name: 'FuelChart',
+  components: {
+    LineChartGenerator
+  },
   props: {
     chartId: {
       type: String,
-      default: 'bar-chart'
+      default: 'line-chart'
     },
     datasetIdKey: {
       type: String,
@@ -35,7 +36,7 @@ export default {
     },
     height: {
       type: Number,
-      default: 400
+      default: 300
     },
     cssClasses: {
       default: '',
@@ -52,34 +53,38 @@ export default {
   },
   data () {
     return {
-      loading: false,
+      loading: true,
       chartData: {
-        labels: ['January', 'February', 'March'],
-        datasets: [{ data: [40, 20, 12] }]
+        labels: [],
+        datasets: [{}]
       },
       chartOptions: {
-        responsive: true
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          }
+        }
       }
     }
   },
   computed: {
-    ...mapGetters(['deviceIds', 'from', 'to'])
+    ...mapGetters(['summary', 'devices'])
   },
   watch: {
-    deviceIds () {
-      this.get()
-    },
-    from () {
-      this.get()
+    summary () {
+      this.convertData(this.summary)
+      this.loading = false
     }
   },
   methods: {
-    async get () {
-      if (this.deviceIds && this.from && this.to) {
-        this.loading = true
-        const url = `reports/events?${this.deviceIds}&from=${this.from}&to=${this.to}`
-        await this.$axios.$get(url)
-        this.loading = false
+    convertData (summaries) {
+      const labels = this.devices.map(d => d.name)
+      this.chartData.labels = labels.map(l => this.$t(l))
+      this.chartData.datasets[0] = {
+        data: summaries.map(s => Math.round(s.spentFuel)),
+        backgroundColor: this.devices.map((d, i) => this.$color(i))
       }
     }
   }

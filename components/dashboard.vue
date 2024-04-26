@@ -1,3 +1,13 @@
+<i18n lang="yaml">
+fr:
+  Events: Événements
+  Trips: Voyages
+  Hours: Heures
+  Groups: Groupes
+  Drivers: Conducteurs
+  Daily: 'Tous les jours'
+  Fuel: Carburant
+</i18n>
 <template>
   <div style="padding: 10px">
     <el-row :gutter="20">
@@ -17,61 +27,57 @@
     </el-row>
     <el-row :gutter="20">
       <el-col :span="8">
-        <bar-chart />
+        <events />
+      </el-col>
+      <el-col :span="8">
+        <trips />
+      </el-col>
+      <el-col :span="8">
+        <kms />
+      </el-col>
+    </el-row>
+    <el-row :gutter="20">
+      <el-col :span="8">
         <div class="grid-content bg-purple">
-          <span>This text is centered.</span>
+          <span>{{ $t('Events') }}</span>
         </div>
       </el-col>
       <el-col :span="8">
-        <bar-chart />
         <div class="grid-content bg-purple">
-          <span>This text is centered.</span>
+          <span>{{ $t('Trips') }}</span>
         </div>
       </el-col>
       <el-col :span="8">
-        <bar-chart />
         <div class="grid-content bg-purple">
-          <span>This text is centered.</span>
+          <span>{{ $t('Kms') }}</span>
         </div>
       </el-col>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="8">
-        <bar-chart />
-        <div class="grid-content bg-purple">
-          <span>This text is centered.</span>
-        </div>
+        <hours />
       </el-col>
       <el-col :span="8">
-        <bar-chart />
-        <div class="grid-content bg-purple">
-          <span>This text is centered.</span>
-        </div>
+        <fuel />
       </el-col>
       <el-col :span="8">
-        <bar-chart />
-        <div class="grid-content bg-purple">
-          <span>This text is centered.</span>
-        </div>
+        <speed />
       </el-col>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="8">
-        <bar-chart />
         <div class="grid-content bg-purple">
-          <span>This text is centered.</span>
+          <span>{{ $t('Hours') }}</span>
         </div>
       </el-col>
       <el-col :span="8">
-        <bar-chart />
         <div class="grid-content bg-purple">
-          <span>This text is centered.</span>
+          <span>{{ $t('Fuel') }}</span>
         </div>
       </el-col>
       <el-col :span="8">
-        <bar-chart />
         <div class="grid-content bg-purple">
-          <span>This text is centered.</span>
+          <span>{{ $t('Avg Speed') }}</span>
         </div>
       </el-col>
     </el-row>
@@ -79,11 +85,16 @@
 </template>
 
 <script>
-import BarChart from '@/components/BarChart.vue'
+import Events from '@/components/Events.vue'
+import Trips from '@/components/Trips.vue'
+import Kms from '@/components/Kms.vue'
+import Hours from '@/components/Hours.vue'
+import Fuel from '@/components/Fuel.vue'
+import Speed from '@/components/Speed.vue'
 
 export default {
   name: 'DashbordComponent',
-  components: { BarChart },
+  components: { Events, Trips, Kms, Hours, Fuel, Speed },
   data () {
     return {
       pickerOptions: {
