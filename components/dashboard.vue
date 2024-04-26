@@ -7,6 +7,7 @@ fr:
   Drivers: Conducteurs
   Daily: 'Tous les jours'
   Fuel: Carburant
+  'Avg Speed': 'Vitesse moyenne'
 </i18n>
 <template>
   <div style="padding: 10px">
