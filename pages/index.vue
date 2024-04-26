@@ -1,20 +1,10 @@
 <template>
-  <el-container style="height: 500px; border: 1px solid #eee" />
+  <dashbord-component />
 </template>
 <script>
+import DashbordComponent from '@/components/dashboard.vue'
+
 export default {
+  components: { DashbordComponent }
 }
 </script>
-
-<style>
-.el-header {
-  background-color: #B3C0D1;
-  color: #333;
-  line-height: 60px;
-  text-align: center;
-}
-
-.el-aside {
-  color: #333;
-}
-</style>
