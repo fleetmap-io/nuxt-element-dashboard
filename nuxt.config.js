@@ -44,7 +44,7 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
-    '@nuxtjs/axios'
+    '@nuxtjs/axios', 'nuxt-i18n'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -56,5 +56,10 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     transpile: [/^element-ui/]
+  },
+  i18n: {
+    locales: ['en', 'es', 'pt', 'fr'],
+    defaultLocale: 'pt',
+    vueI18nLoader: true
   }
 }
