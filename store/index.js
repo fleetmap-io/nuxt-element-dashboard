@@ -9,7 +9,7 @@ export const state = () => ({
   cognitoSession: null,
   showDashboardHeader: true,
   selectedDevices: [],
-  dateRange: [],
+  dateRange: [new Date(new Date() - 1000 * 60 * 60 * 24 * 7), new Date()],
   loading: false,
   email: null,
   tachoDevices: null,

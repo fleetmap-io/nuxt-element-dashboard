@@ -52,7 +52,7 @@ export default {
   },
   data () {
     return {
-      loading: true,
+      loading: false,
       chartData: {
         labels: ['January', 'February', 'March'],
         datasets: [{ data: [40, 20, 12] }]
@@ -74,10 +74,12 @@ export default {
     }
   },
   methods: {
-    get () {
+    async get () {
       if (this.deviceIds && this.from && this.to) {
+        this.loading = true
         const url = `reports/events?${this.deviceIds}&from=${this.from}&to=${this.to}`
-        this.$axios.$get(url)
+        await this.$axios.$get(url)
+        this.loading = false
       }
     }
   }

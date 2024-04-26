@@ -8,10 +8,8 @@
           type="daterange"
           unlink-panels
           range-separator="-"
-          format="dd-MM-yyyy HH:mm"
           value-format="timestamp"
           :picker-options="pickerOptions"
-          :default-time="['00:00:00', '23:59:59']"
         />
       </el-col>
       <el-col :span="8" />
