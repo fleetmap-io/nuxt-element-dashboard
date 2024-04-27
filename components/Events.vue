@@ -1,6 +1,9 @@
 <i18n lang="yaml">
 pt:
   ignitionOn: Ignição Ligada
+  ignitionOff: Ignição Desligada
+  events: Eventos
+  alarm:
 </i18n>
 
 <template>
@@ -66,6 +69,14 @@ export default {
           legend: {
             display: false
           }
+        },
+        scales: {
+          x: {
+            stacked: true
+          },
+          y: {
+            stacked: true
+          }
         }
       }
     }
@@ -85,17 +96,18 @@ export default {
   },
   methods: {
     convertData (events) {
+      const getType = e => e.attributes.alarm || e.type
       const labels = []
-      events.forEach((e) => {
-        if (!labels.includes(e.type)) {
-          labels.push(e.type)
+      events.forEach(e => !labels.includes(getType(e)) && labels.push(getType(e)))
+      this.chartData.labels = labels.map(l => this.$t(l))
+      this.chartData.datasets = this.devices.map((d) => {
+        return {
+          data: labels.map(l => events.filter(e => getType(e) === l && e.deviceId === d.id).length),
+          backgroundColor: this.$color(this.devices.indexOf(d)) + 'DF',
+          borderColor: this.$color(this.devices.indexOf(d)) + 'DF',
+          label: d.name
         }
       })
-      this.chartData.labels = labels.map(l => this.$t(l))
-      this.chartData.datasets[0] = {
-        data: labels.map(l => events.filter(e => e.type === l).length),
-        backgroundColor: labels.map((d, i) => this.$color(i))
-      }
     }
   }
 }

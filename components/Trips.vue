@@ -61,6 +61,7 @@ export default {
         datasets: [{ data: [] }]
       },
       chartOptions: {
+        indexAxis: 'y',
         responsive: true,
         plugins: {
           legend: {
@@ -74,24 +75,15 @@ export default {
     ...mapGetters(['trips', 'devices'])
   },
   watch: {
-    trips () {
-      this.convertData(this.trips)
-      this.loading = false
-    }
-  },
-  methods: {
-    convertData (trips) {
-      const labels = []
-      trips.forEach((e) => {
-        if (!labels.includes(e.type)) {
-          labels.push(e.type)
+    trips (trips) {
+      this.chartData.labels = this.devices.map(d => d.name)
+      this.chartData.datasets = this.devices.map((d) => {
+        return {
+          data: trips.filter(t => t.deviceId === d.id).map(t => [new Date(t.startTime).getTime(), new Date(t.endTime).getTime()]),
+          backgroundColor: 'red'
         }
       })
-      this.chartData.labels = this.devices.map(d => d.name)
-      this.chartData.datasets[0] = {
-        data: this.devices.map(d => trips.filter(t => t.deviceId === d.id).length),
-        backgroundColor: this.devices.map((d, i) => this.$color(i))
-      }
+      this.loading = false
     }
   }
 }

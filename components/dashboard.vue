@@ -8,6 +8,16 @@ fr:
   Daily: 'Tous les jours'
   Fuel: Carburant
   'Avg Speed': 'Vitesse moyenne'
+pt:
+  Events: Eventos
+  Trips: Viagens
+  Hours: Horas
+  Fuel: Combustível
+  'Avg Speed': 'Velocidade Média'
+  unidentifiedDriver: 'Sem conductor'
+  hardCornering: 'Viragem brusca'
+  hardBraking: 'Travagem brusca'
+  hardAcceleration: 'Acel. Brusca'
 </i18n>
 <template>
   <div style="padding: 10px">
@@ -176,21 +186,13 @@ export default {
     margin-bottom: 0;
   }
 }
-.el-col {
-  border-radius: 4px;
-}
-.bg-purple-dark {
-  background: #99a9bf;
-}
 .bg-purple {
-  background: #d3dce6;
-}
-.bg-purple-light {
-  background: #e5e9f2;
+  background: #979797;
+  color: white;
 }
 .grid-content {
   border-radius: 4px;
-  padding: 8px;
+  padding: 4px;
   text-align: center;
   vertical-align: center;
 }
