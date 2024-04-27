@@ -3,24 +3,22 @@ pt:
   ignitionOn: Ignição Ligada
   ignitionOff: Ignição Desligada
   events: Eventos
-  alarm:
 </i18n>
 
 <template>
-  <Bar
+  <bar-chart
     v-loading="loading"
     :chart-options="chartOptions"
     :chart-data="chartData"
+    :height="height"
   />
 </template>
 
 <script>
-import { Bar } from 'vue-chartjs'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'EventsChart',
-  components: { Bar },
   data () {
     return {
       loading: true,
@@ -29,8 +27,8 @@ export default {
         datasets: [{ data: [] }]
       },
       chartOptions: {
-        maintainAspectRatio: true,
         responsive: true,
+        maintainAspectRatio: true,
         plugins: {
           legend: {
             display: true
@@ -48,7 +46,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['events', 'devices'])
+    ...mapGetters(['events', 'devices', 'height'])
   },
   watch: {
     events () {

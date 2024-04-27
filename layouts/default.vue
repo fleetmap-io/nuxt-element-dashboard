@@ -11,7 +11,7 @@ fr:
         </span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item disabled>
-            {{ userEmail }}
+            {{ session.email }}
           </el-dropdown-item>
           <el-dropdown-item divided command="logout">
             Logout
@@ -34,12 +34,8 @@ export default {
     await this.$store.dispatch('initData')
   },
   computed: {
-    ...mapGetters(['user', 'title', 'email']),
-    logo: () => `/img/logos/${window.location.hostname}.png`,
-    userEmail () {
-      const traccar = this.user && this.user.email
-      return `${traccar} ${traccar !== this.email ? this.email : ''}`
-    }
+    ...mapGetters(['session']),
+    logo: () => `/img/logos/${window.location.hostname}.png`
   },
   mounted () {
     switch (navigator.language) {

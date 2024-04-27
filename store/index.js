@@ -1,11 +1,11 @@
 export const state = () => ({
-  user: null,
+  session: {},
   geofences: [],
   devices: [],
   groups: [],
   drivers: [],
   users: [],
-  dateRange: [new Date(new Date() - 1000 * 60 * 60 * 24 * 3), new Date()],
+  dateRange: [new Date(new Date() - 1000 * 60 * 60 * 24 * 0.3), new Date()],
   loading: false,
   trips: [],
   summary: [],
@@ -22,11 +22,13 @@ export const getters = {
   user: state => state.user,
   trips: state => state.trips,
   devices: state => state.devices,
-  events: state => state.events
+  events: state => state.events,
+  session: state => state.session,
+  height: () => 300
 }
 
 export const mutations = {
-  setDateRange (state, dateRange) {
+  SET_DATE_RANGE (state, dateRange) {
     state.dateRange = dateRange
   },
   SET_DEVICES (state, devices) {
@@ -40,11 +42,15 @@ export const mutations = {
   },
   SET_EVENTS (state, events) {
     state.events = events
+  },
+  SET_SESSION (state, session) {
+    state.session = session
   }
 }
 
 export const actions = {
   async initData ({ commit, getters }) {
+    commit('SET_SESSION', await this.$axios.$get('session'))
     commit('SET_DEVICES', await this.$axios.$get('devices'))
     const trips = await this.$axios.$get(`reports/trips?${getters.deviceIds}&from=${getters.from}&to=${getters.to}`)
       .catch(e => this.$message.error(e.message))

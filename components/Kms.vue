@@ -1,42 +1,17 @@
 <template>
-  <Pie
+  <bar-chart
     v-loading="loading"
     :chart-options="chartOptions"
     :chart-data="chartData"
+    :height="height"
   />
 </template>
 
 <script>
-import { Pie } from 'vue-chartjs/legacy'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'KmsChart',
-  components: {
-    Pie
-  },
-  props: {
-    chartId: {
-      type: String,
-      default: 'pie-chart'
-    },
-    datasetIdKey: {
-      type: String,
-      default: 'label'
-    },
-    cssClasses: {
-      default: '',
-      type: String
-    },
-    styles: {
-      type: Object,
-      default: () => {}
-    },
-    plugins: {
-      type: Array,
-      default: () => []
-    }
-  },
   data () {
     return {
       loading: true,
@@ -46,12 +21,12 @@ export default {
       },
       chartOptions: {
         responsive: true,
-        maintainAspectRatio: false
+        maintainAspectRatio: true
       }
     }
   },
   computed: {
-    ...mapGetters(['summary', 'devices'])
+    ...mapGetters(['summary', 'devices', 'height'])
   },
   watch: {
     summary () {

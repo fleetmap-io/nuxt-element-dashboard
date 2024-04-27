@@ -4,47 +4,21 @@ pt:
 </i18n>
 
 <template>
-  <Bar
+  <bar-chart
     v-loading="loading"
     :chart-options="chartOptions"
     :chart-data="chartData"
-    :styles="styles"
+    :height="height"
   />
 </template>
 
 <script>
-import { Bar } from 'vue-chartjs'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'TripsChart',
-  components: { Bar },
   data () {
     return {
-      chartId: {
-        type: String,
-        default: 'bar-chart'
-      },
-      datasetIdKey: {
-        type: String,
-        default: 'label'
-      },
-      width: {
-        type: Number,
-        default: 400
-      },
-      height: {
-        type: Number,
-        default: 400
-      },
-      cssClasses: {
-        default: '',
-        type: String
-      },
-      styles: {
-        type: Object,
-        default: () => {}
-      },
       plugins: {
         type: Array,
         default: () => []
@@ -61,19 +35,29 @@ export default {
           legend: {
             display: false
           }
+        },
+        scales: {
+          x: {
+            type: 'time'
+          }
         }
       }
     }
   },
   computed: {
-    ...mapGetters(['trips', 'devices'])
+    ...mapGetters(['trips', 'devices', 'height'])
   },
   watch: {
     trips (trips) {
       this.chartData.labels = this.devices.map(d => d.name)
       this.chartData.datasets = this.devices.map((d) => {
         return {
-          data: trips.filter(t => t.deviceId === d.id).map(t => [new Date(t.startTime).getTime(), new Date(t.endTime).getTime()]),
+          data: trips.filter(t => t.deviceId === d.id).map((t) => {
+            return {
+              x: new Date(t.startTime),
+              y: 1
+            }
+          }),
           backgroundColor: 'red'
         }
       })

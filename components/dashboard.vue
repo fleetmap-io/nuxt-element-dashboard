@@ -147,7 +147,7 @@ export default {
   computed: {
     dateRange: {
       set (value) {
-        this.$store.commit('setDateRange', value)
+        this.$store.commit('SET_DATE_RANGE', value)
       },
       get () {
         return this.$store.getters.dateRange
@@ -173,6 +173,5 @@ export default {
 .el-card {
   border-radius: 10px;
   border-width: 2px;
-  height: 400px;
 }
 </style>

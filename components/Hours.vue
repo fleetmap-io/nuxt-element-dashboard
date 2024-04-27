@@ -1,54 +1,16 @@
 <template>
-  <Pie
+  <pie-chart
     :chart-options="chartOptions"
     :chart-data="chartData"
-    :chart-id="chartId"
-    :dataset-id-key="datasetIdKey"
-    :plugins="plugins"
-    :css-classes="cssClasses"
-    :styles="styles"
+    :height="height"
   />
 </template>
 
 <script>
-import { Pie } from 'vue-chartjs/legacy'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'HoursChart',
-  components: {
-    Pie
-  },
-  props: {
-    chartId: {
-      type: String,
-      default: 'pie-chart'
-    },
-    datasetIdKey: {
-      type: String,
-      default: 'label'
-    },
-    width: {
-      type: Number,
-      default: 400
-    },
-    height: {
-      type: Number,
-      default: 200
-    },
-    cssClasses: {
-      default: '',
-      type: String
-    },
-    styles: {
-      type: Object,
-      default: () => {}
-    },
-    plugins: {
-      type: Array,
-      default: () => []
-    }
-  },
   data () {
     return {
       loading: true,
@@ -63,7 +25,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['summary', 'devices'])
+    ...mapGetters(['summary', 'devices', 'height'])
   },
   watch: {
     summary () {
