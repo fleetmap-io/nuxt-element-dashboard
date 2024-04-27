@@ -5,7 +5,7 @@ export const state = () => ({
   groups: [],
   drivers: [],
   users: [],
-  dateRange: [new Date(new Date() - 1000 * 60 * 60 * 24 * 0.3), new Date()],
+  dateRange: [new Date(new Date() - 1000 * 60 * 60 * 24 * 3), new Date()],
   loading: false,
   trips: [],
   summary: [],
