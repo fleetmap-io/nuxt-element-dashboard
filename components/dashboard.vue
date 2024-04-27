@@ -38,58 +38,36 @@ pt:
     </el-row>
     <el-row :gutter="20">
       <el-col :span="8">
-        <events />
+        <el-card :header="$t('Events')" shadow="never">
+          <events />
+        </el-card>
       </el-col>
       <el-col :span="8">
-        <trips />
+        <el-card :header="$t('Trips')" shadow="never">
+          <trips />
+        </el-card>
       </el-col>
       <el-col :span="8">
-        <kms />
-      </el-col>
-    </el-row>
-    <el-row :gutter="20">
-      <el-col :span="8">
-        <div class="grid-content bg-purple">
-          <span>{{ $t('Events') }}</span>
-        </div>
-      </el-col>
-      <el-col :span="8">
-        <div class="grid-content bg-purple">
-          <span>{{ $t('Trips') }}</span>
-        </div>
-      </el-col>
-      <el-col :span="8">
-        <div class="grid-content bg-purple">
-          <span>{{ $t('Kms') }}</span>
-        </div>
+        <el-card :header="$t('Kms')" shadow="never">
+          <kms />
+        </el-card>
       </el-col>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="8">
-        <hours />
+        <el-card shadow="never" :header="$t('Hours')">
+          <hours />
+        </el-card>
       </el-col>
       <el-col :span="8">
-        <fuel />
+        <el-card shadow="never" :header="$t('Fuel')">
+          <fuel />
+        </el-card>
       </el-col>
       <el-col :span="8">
-        <speed />
-      </el-col>
-    </el-row>
-    <el-row :gutter="20">
-      <el-col :span="8">
-        <div class="grid-content bg-purple">
-          <span>{{ $t('Hours') }}</span>
-        </div>
-      </el-col>
-      <el-col :span="8">
-        <div class="grid-content bg-purple">
-          <span>{{ $t('Fuel') }}</span>
-        </div>
-      </el-col>
-      <el-col :span="8">
-        <div class="grid-content bg-purple">
-          <span>{{ $t('Avg Speed') }}</span>
-        </div>
+        <el-card shadow="never" :header="$t('Speed')">
+          <speed />
+        </el-card>
       </el-col>
     </el-row>
   </div>
@@ -104,7 +82,7 @@ import Fuel from '@/components/Fuel.vue'
 import Speed from '@/components/Speed.vue'
 
 export default {
-  name: 'DashbordComponent',
+  name: 'DashboardComponent',
   components: { Events, Trips, Kms, Hours, Fuel, Speed },
   data () {
     return {
@@ -180,24 +158,21 @@ export default {
 </script>
 
 <style>
+.el-col {
+}
 .el-row {
   margin-bottom: 20px;
   &:last-child {
     margin-bottom: 0;
   }
 }
-.bg-purple {
-  background: #979797;
-  color: white;
-}
-.grid-content {
-  border-radius: 4px;
-  padding: 4px;
-  text-align: center;
-  vertical-align: center;
-}
 .row-bg {
   padding: 10px 0;
   background-color: #f9fafc;
+}
+.el-card {
+  border-radius: 10px;
+  border-width: 2px;
+  height: 400px;
 }
 </style>

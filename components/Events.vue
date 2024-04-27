@@ -11,13 +11,6 @@ pt:
     v-loading="loading"
     :chart-options="chartOptions"
     :chart-data="chartData"
-    :chart-id="chartId"
-    :dataset-id-key="datasetIdKey"
-    :plugins="plugins"
-    :css-classes="cssClasses"
-    :styles="styles"
-    :width="width"
-    :height="height"
   />
 </template>
 
@@ -30,44 +23,17 @@ export default {
   components: { Bar },
   data () {
     return {
-      chartId: {
-        type: String,
-        default: 'bar-chart'
-      },
-      datasetIdKey: {
-        type: String,
-        default: 'label'
-      },
-      width: {
-        type: Number,
-        default: 400
-      },
-      height: {
-        type: Number,
-        default: 400
-      },
-      cssClasses: {
-        default: '',
-        type: String
-      },
-      styles: {
-        type: Object,
-        default: () => {}
-      },
-      plugins: {
-        type: Array,
-        default: () => []
-      },
-      loading: false,
+      loading: true,
       chartData: {
         labels: [],
         datasets: [{ data: [] }]
       },
       chartOptions: {
+        maintainAspectRatio: true,
         responsive: true,
         plugins: {
           legend: {
-            display: false
+            display: true
           }
         },
         scales: {

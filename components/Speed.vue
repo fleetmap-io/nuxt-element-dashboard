@@ -7,8 +7,6 @@
     :plugins="plugins"
     :css-classes="cssClasses"
     :styles="styles"
-    :width="width"
-    :height="height"
   />
 </template>
 
@@ -53,6 +51,7 @@ export default {
   },
   data () {
     return {
+      loading: true,
       chartData: {
         labels: [],
         datasets: [{}]
