@@ -19,11 +19,7 @@ export default {
   name: 'TripsChart',
   data () {
     return {
-      plugins: {
-        type: Array,
-        default: () => []
-      },
-      loading: true,
+      loading: false,
       chartData: {
         labels: [],
         datasets: [{ data: [] }]
@@ -38,27 +34,41 @@ export default {
         },
         scales: {
           x: {
-            type: 'time'
+            type: 'time',
+            stacked: true,
+            min: new Date(this.from).getTime(),
+            max: new Date(this.to).getTime()
+          },
+          y: {
+            stacked: true
           }
         }
       }
     }
   },
   computed: {
-    ...mapGetters(['trips', 'devices', 'height'])
+    ...mapGetters(['trips', 'devices', 'height', 'from', 'to'])
   },
   watch: {
+    from (from) {
+      this.chartOptions.scales.x.min = new Date(from).getTime()
+      this.chartOptions = { ...this.chartOptions }
+    },
+    to (to) {
+      this.chartOptions.scales.x.max = new Date(to).getTime()
+      this.chartOptions = { ...this.chartOptions }
+    },
     trips (trips) {
       this.chartData.labels = this.devices.map(d => d.name)
-      this.chartData.datasets = this.devices.map((d) => {
+      this.chartData.datasets = this.devices.map((d, i) => {
         return {
           data: trips.filter(t => t.deviceId === d.id).map((t) => {
             return {
               x: new Date(t.startTime),
-              y: 1
+              y: new Date(t.endTime)
             }
           }),
-          backgroundColor: 'red'
+          backgroundColor: this.$color(i)
         }
       })
       this.loading = false
