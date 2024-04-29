@@ -4,7 +4,16 @@ pt:
 </i18n>
 
 <template>
-  <GChart type="Timeline" :data="data" :options="options" :settings="settings" />
+  <div ref="gchart">
+    <GChart
+      v-loading="loading"
+      :style="`height: ${height}px`"
+      type="Timeline"
+      :data="data"
+      :options="options"
+      :settings="settings"
+    />
+  </div>
 </template>
 
 <script>
@@ -18,8 +27,8 @@ export default {
   },
   data () {
     return {
+      height: 300,
       rows: undefined,
-      loading: false,
       data: [
         { type: 'string' },
         { type: 'date' },
@@ -34,7 +43,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['trips', 'devices', 'height', 'from', 'to'])
+    ...mapGetters(['trips', 'devices', 'height', 'from', 'to', 'loading'])
   },
   watch: {
     from (from) {
@@ -42,10 +51,10 @@ export default {
     to (to) {
     },
     trips (trips) {
+      this.height = this.$refs.gchart.parentElement.clientHeight
       this.data = trips.map(t =>
         [this.devices.find(d => d.id === t.deviceId).name,
           new Date(t.startTime), new Date(t.endTime)])
-      this.loading = false
     }
   }
 }

@@ -1,5 +1,6 @@
 <template>
   <line-chart
+    v-loading="loading"
     :chart-options="chartOptions"
     :chart-data="chartData"
     :height="height"
@@ -13,7 +14,6 @@ export default {
   name: 'SpeedChart',
   data () {
     return {
-      loading: true,
       chartData: {
         labels: [],
         datasets: [{}]
@@ -30,12 +30,11 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['summary', 'devices', 'height'])
+    ...mapGetters(['summary', 'devices', 'height', 'loading'])
   },
   watch: {
     summary () {
       this.convertData(this.summary)
-      this.loading = false
     }
   },
   methods: {

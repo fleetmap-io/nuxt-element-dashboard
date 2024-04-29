@@ -21,7 +21,6 @@ export default {
   name: 'EventsChart',
   data () {
     return {
-      loading: true,
       chartData: {
         labels: [],
         datasets: [{ data: [] }]
@@ -46,13 +45,12 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['events', 'devices', 'height'])
+    ...mapGetters(['events', 'devices', 'height', 'loading'])
   },
   watch: {
     events () {
       try {
         this.convertData(this.events)
-        this.loading = false
       } catch (e) {
         this.$message.error(e.message)
       }

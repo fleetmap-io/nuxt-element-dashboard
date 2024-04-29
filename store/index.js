@@ -6,7 +6,7 @@ export const state = () => ({
   drivers: [],
   users: [],
   dateRange: [new Date(new Date() - 1000 * 60 * 60 * 24 * 3), new Date()],
-  loading: false,
+  loading: true,
   trips: [],
   summary: [],
   events: []
@@ -32,7 +32,7 @@ export const mutations = {
     state.dateRange = dateRange
   },
   SET_DEVICES (state, devices) {
-    state.devices = devices.slice(0, 4)
+    state.devices = devices.slice(0, 8)
   },
   SET_TRIPS (state, trips) {
     state.trips = trips
@@ -45,19 +45,33 @@ export const mutations = {
   },
   SET_SESSION (state, session) {
     state.session = session
+  },
+  SET_LOADING (state, loading) {
+    state.loading = loading
   }
 }
 
 export const actions = {
-  async initData ({ commit, getters }) {
+  async initData ({ commit, dispatch }) {
     commit('SET_SESSION', await this.$axios.$get('session'))
     commit('SET_DEVICES', await this.$axios.$get('devices'))
-    const trips = await this.$axios.$get(`reports/trips?${getters.deviceIds}&from=${getters.from}&to=${getters.to}`)
-      .catch(e => this.$message.error(e.message))
-    commit('SET_TRIPS', trips)
-    const summary = await this.$axios.$get(`reports/summary?${getters.deviceIds}&from=${getters.from}&to=${getters.to}`)
-      .catch(e => alert(e.message))
-    commit('SET_SUMMARY', summary)
-    commit('SET_EVENTS', await this.$axios.$get(`reports/events?${getters.deviceIds}&from=${getters.from}&to=${getters.to}`))
+    dispatch('getData')
+  },
+  async getData ({ commit, getters }) {
+    commit('SET_LOADING', true)
+    try {
+      const types = ['trips', 'summary'].map(t => `type=${t}`).join('&')
+      const url = `reports/allinone?${getters.deviceIds}&from=${getters.from}&to=${getters.to}&${types}`
+      const {
+        trips,
+        summary
+      } = await this.$axios.$get(url)
+      commit('SET_TRIPS', trips)
+      commit('SET_SUMMARY', summary)
+      commit('SET_EVENTS', await this.$axios.$get(`reports/events?${getters.deviceIds}&from=${getters.from}&to=${getters.to}`))
+    } catch (e) {
+      alert(e.message)
+    }
+    commit('SET_LOADING', false)
   }
 }

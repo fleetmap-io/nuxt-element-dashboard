@@ -14,24 +14,27 @@ export default {
   name: 'KmsChart',
   data () {
     return {
-      loading: true,
       chartData: {
         labels: [],
         datasets: [{ data: [] }]
       },
       chartOptions: {
         responsive: true,
-        maintainAspectRatio: true
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            display: false
+          }
+        }
       }
     }
   },
   computed: {
-    ...mapGetters(['summary', 'devices', 'height'])
+    ...mapGetters(['summary', 'devices', 'height', 'loading'])
   },
   watch: {
     summary () {
       this.convertData(this.summary)
-      this.loading = false
     }
   },
   methods: {

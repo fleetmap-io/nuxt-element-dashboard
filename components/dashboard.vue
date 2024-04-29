@@ -1,5 +1,8 @@
 <i18n lang="yaml">
 fr:
+  Last week: La semaine dernière
+  Today: "Aujourd'hui"
+  Last month: Le mois dernier
   Events: Événements
   Trips: Voyages
   Hours: Heures
@@ -36,7 +39,7 @@ pt:
       <el-col :span="8" />
       <el-col :span="8" />
     </el-row>
-    <el-row :gutter="20">
+    <el-row :gutter="20" style="display: flex; flex-direction: row">
       <el-col :span="8">
         <el-card :header="$t('Events')" shadow="never">
           <events />
@@ -74,6 +77,7 @@ pt:
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import Events from '@/components/Events.vue'
 import Trips from '@/components/Trips.vue'
 import Kms from '@/components/Kms.vue'
@@ -131,20 +135,13 @@ export default {
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
             picker.$emit('pick', [start, end])
           }
-        }, {
-          text: this.$t('Last 3 months'),
-          onClick (picker) {
-            const end = new Date()
-            const start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-            picker.$emit('pick', [start, end])
-          }
         }],
         firstDayOfWeek: 1
       }
     }
   },
   computed: {
+    ...mapGetters(['from', 'to']),
     dateRange: {
       set (value) {
         this.$store.commit('SET_DATE_RANGE', value)
@@ -152,6 +149,11 @@ export default {
       get () {
         return this.$store.getters.dateRange
       }
+    }
+  },
+  watch: {
+    from () {
+      this.$store.dispatch('initData')
     }
   }
 }
@@ -173,5 +175,10 @@ export default {
 .el-card {
   border-radius: 10px;
   border-width: 2px;
+  height: 100%;
+}
+.el-card__body {
+  padding: 5px;
+  height: calc(100% - 57px);
 }
 </style>
