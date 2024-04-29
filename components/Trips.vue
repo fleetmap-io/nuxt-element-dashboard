@@ -4,45 +4,32 @@ pt:
 </i18n>
 
 <template>
-  <bar-chart
-    v-loading="loading"
-    :chart-options="chartOptions"
-    :chart-data="chartData"
-    :height="height"
-  />
+  <GChart type="Timeline" :data="data" :options="options" :settings="settings" />
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import { GChart } from 'vue-google-charts/legacy'
 
 export default {
   name: 'TripsChart',
+  components: {
+    GChart
+  },
   data () {
     return {
+      rows: undefined,
       loading: false,
-      chartData: {
-        labels: [],
-        datasets: [{ data: [] }]
+      data: [
+        { type: 'string' },
+        { type: 'date' },
+        { type: 'date' }
+      ],
+      options: {
+        colors: this.$colors
       },
-      chartOptions: {
-        indexAxis: 'y',
-        responsive: true,
-        plugins: {
-          legend: {
-            display: false
-          }
-        },
-        scales: {
-          x: {
-            type: 'time',
-            stacked: true,
-            min: new Date(this.from).getTime(),
-            max: new Date(this.to).getTime()
-          },
-          y: {
-            stacked: true
-          }
-        }
+      settings: {
+        packages: ['timeline']
       }
     }
   },
@@ -51,26 +38,13 @@ export default {
   },
   watch: {
     from (from) {
-      this.chartOptions.scales.x.min = new Date(from).getTime()
-      this.chartOptions = { ...this.chartOptions }
     },
     to (to) {
-      this.chartOptions.scales.x.max = new Date(to).getTime()
-      this.chartOptions = { ...this.chartOptions }
     },
     trips (trips) {
-      this.chartData.labels = this.devices.map(d => d.name)
-      this.chartData.datasets = this.devices.map((d, i) => {
-        return {
-          data: trips.filter(t => t.deviceId === d.id).map((t) => {
-            return {
-              x: new Date(t.startTime),
-              y: new Date(t.endTime)
-            }
-          }),
-          backgroundColor: this.$color(i)
-        }
-      })
+      this.data = trips.map(t =>
+        [this.devices.find(d => d.id === t.deviceId).name,
+          new Date(t.startTime), new Date(t.endTime)])
       this.loading = false
     }
   }
