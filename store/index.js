@@ -64,14 +64,17 @@ export const actions = {
   },
   async getData ({ commit, getters, state }) {
     commit('SET_LOADING', true)
-    commit('SET_PERCENTAGE', 0)
+    let percentage = 0
+    commit('SET_PERCENTAGE', percentage)
     try {
       const types = ['trips', 'summary'].map(t => `type=${t}`).join('&')
       const data = await Promise.all(state.devices.map(async (device) => {
         const result = await this.$axios.$get(`reports/allinone?deviceId=${device.id}&from=${getters.from}&to=${getters.to}&${types}`)
-        commit('SET_PERCENTAGE', Math.floor(state.percentage + 50 / state.devices.length))
+        percentage += 50 / state.devices.length
+        commit('SET_PERCENTAGE', Math.round(percentage))
         result.events = await this.$axios.$get(`reports/events?deviceId=${device.id}&from=${getters.from}&to=${getters.to}`)
-        commit('SET_PERCENTAGE', Math.floor(state.percentage + 50 / state.devices.length))
+        percentage += 50 / state.devices.length
+        commit('SET_PERCENTAGE', Math.round(percentage))
         return result
       }))
       const trips = data.map(d => d.trips).flat()

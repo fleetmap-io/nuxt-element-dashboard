@@ -38,7 +38,7 @@ pt:
       </el-col>
       <el-col :span="8" />
       <el-col :span="8">
-        <el-progress v-if="loading" :percentage="percentage" />
+        <el-progress :percentage="percentage" />
       </el-col>
     </el-row>
     <el-row :gutter="20" style="display: flex; flex-direction: row">
