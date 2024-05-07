@@ -53,9 +53,8 @@ export default {
     },
     trips (trips) {
       this.height = this.$refs.gchart.parentElement.clientHeight
-      this.data = trips.map(t =>
-        [this.devices.find(d => d.id === t.deviceId).name,
-          new Date(t.startTime), new Date(t.endTime)])
+      this.data = this.devices.map(d => trips.filter(t => t.deviceId === d.id)
+        .map(t => [d.name, new Date(t.startTime), new Date(t.endTime)])).flat()
     }
   }
 }
