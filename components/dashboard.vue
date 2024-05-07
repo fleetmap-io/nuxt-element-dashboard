@@ -37,7 +37,9 @@ pt:
         />
       </el-col>
       <el-col :span="8" />
-      <el-col :span="8" />
+      <el-col :span="8">
+        <el-progress v-if="loading" :percentage="percentage" />
+      </el-col>
     </el-row>
     <el-row :gutter="20" style="display: flex; flex-direction: row">
       <el-col :span="8">
@@ -141,7 +143,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['from', 'to']),
+    ...mapGetters(['from', 'to', 'percentage', 'loading']),
     dateRange: {
       set (value) {
         this.$store.commit('SET_DATE_RANGE', value)
@@ -160,8 +162,6 @@ export default {
 </script>
 
 <style>
-.el-col {
-}
 .el-row {
   margin-bottom: 20px;
   &:last-child {

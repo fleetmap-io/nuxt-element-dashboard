@@ -9,7 +9,8 @@ export const state = () => ({
   loading: true,
   trips: [],
   summary: [],
-  events: []
+  events: [],
+  percentage: 0
 })
 
 export const getters = {
@@ -24,7 +25,8 @@ export const getters = {
   devices: state => state.devices,
   events: state => state.events,
   session: state => state.session,
-  height: () => 300
+  height: () => 300,
+  percentage: state => state.percentage
 }
 
 export const mutations = {
@@ -32,7 +34,7 @@ export const mutations = {
     state.dateRange = dateRange
   },
   SET_DEVICES (state, devices) {
-    state.devices = devices.slice(0, 8)
+    state.devices = devices.slice(0, 20)
   },
   SET_TRIPS (state, trips) {
     state.trips = trips
@@ -48,6 +50,9 @@ export const mutations = {
   },
   SET_LOADING (state, loading) {
     state.loading = loading
+  },
+  SET_PERCENTAGE (state, percentage) {
+    state.percentage = percentage
   }
 }
 
@@ -57,19 +62,27 @@ export const actions = {
     commit('SET_DEVICES', await this.$axios.$get('devices'))
     dispatch('getData')
   },
-  async getData ({ commit, getters }) {
+  async getData ({ commit, getters, state }) {
     commit('SET_LOADING', true)
+    commit('SET_PERCENTAGE', 0)
     try {
       const types = ['trips', 'summary'].map(t => `type=${t}`).join('&')
-      const url = `reports/allinone?${getters.deviceIds}&from=${getters.from}&to=${getters.to}&${types}`
-      const {
-        trips,
-        summary
-      } = await this.$axios.$get(url)
+      const data = await Promise.all(state.devices.map(async (device) => {
+        const result = await this.$axios.$get(`reports/allinone?deviceId=${device.id}&from=${getters.from}&to=${getters.to}&${types}`)
+        commit('SET_PERCENTAGE', Math.floor(state.percentage + 50 / state.devices.length))
+        result.events = await this.$axios.$get(`reports/events?deviceId=${device.id}&from=${getters.from}&to=${getters.to}`)
+        commit('SET_PERCENTAGE', Math.floor(state.percentage + 50 / state.devices.length))
+        return result
+      }))
+      const trips = data.map(d => d.trips).flat()
+      const summary = data.map(d => d.summary).flat()
+      const events = data.map(d => d.events).flat()
       commit('SET_TRIPS', trips)
       commit('SET_SUMMARY', summary)
-      commit('SET_EVENTS', await this.$axios.$get(`reports/events?${getters.deviceIds}&from=${getters.from}&to=${getters.to}`))
+      commit('SET_EVENTS', events)
     } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error(e)
       alert(e.message)
     }
     commit('SET_LOADING', false)
