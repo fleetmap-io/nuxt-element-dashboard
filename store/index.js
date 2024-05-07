@@ -18,6 +18,11 @@ export const getters = {
   to: state => state.dateRange[1] && new Date(state.dateRange[1]).toISOString(),
   loading: state => state.loading,
   deviceIds: state => state.devices.map(d => `deviceId=${d.id}`).join('&'),
+  driver: state => (uniqueId) => {
+    const result = state.drivers.find(d => d.uniqueId === uniqueId)
+    return (result && result.name) || uniqueId
+  },
+  drivers: state => state.drivers,
   dateRange: state => state.dateRange,
   summary: state => state.summary,
   user: state => state.user,
@@ -35,6 +40,9 @@ export const mutations = {
   },
   SET_DEVICES (state, devices) {
     state.devices = devices.slice(0, 20)
+  },
+  SET_DRIVERS (state, drivers) {
+    state.drivers = drivers
   },
   SET_TRIPS (state, trips) {
     state.trips = trips
@@ -60,6 +68,7 @@ export const actions = {
   async initData ({ commit, dispatch }) {
     commit('SET_SESSION', await this.$axios.$get('session'))
     commit('SET_DEVICES', await this.$axios.$get('devices'))
+    commit('SET_DRIVERS', await this.$axios.$get('drivers'))
     dispatch('getData')
   },
   async getData ({ commit, getters, state }) {

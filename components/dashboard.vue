@@ -11,8 +11,12 @@ fr:
   Daily: 'Tous les jours'
   Fuel: Carburant
   'Avg Speed': 'Vitesse moyenne'
+  vehicles: véhicules
+  drivers: conducteurs
 pt:
+  drivers: motoristas
   Events: Eventos
+  Vehicles: Veículos
   Trips: Viagens
   Hours: Horas
   Fuel: Combustível
@@ -43,35 +47,35 @@ pt:
     </el-row>
     <el-row :gutter="20" style="display: flex; flex-direction: row">
       <el-col :span="8">
-        <el-card :header="$t('Events')" shadow="never">
-          <events />
+        <el-card :header="$t('Trips')+' '+ $t('vehicles')" shadow="never">
+          <trips-device />
         </el-card>
       </el-col>
       <el-col :span="8">
-        <el-card :header="$t('Trips')" shadow="never">
-          <trips />
+        <el-card :header="$t('Kms')+' '+ $t('vehicles')" shadow="never">
+          <kms-device />
         </el-card>
       </el-col>
       <el-col :span="8">
-        <el-card :header="$t('Kms')" shadow="never">
-          <kms />
+        <el-card :header="$t('Hours')+' '+ $t('vehicles')" shadow="never">
+          <hours-device />
         </el-card>
       </el-col>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="8">
-        <el-card shadow="never" :header="$t('Hours')">
-          <hours />
+        <el-card :header="$t('Trips') +' '+ $t('drivers')" shadow="never">
+          <trips-driver />
         </el-card>
       </el-col>
       <el-col :span="8">
-        <el-card shadow="never" :header="$t('Fuel')">
-          <fuel />
+        <el-card :header="$t('Kms')+' '+ $t('drivers')" shadow="never">
+          <kms-driver />
         </el-card>
       </el-col>
       <el-col :span="8">
-        <el-card shadow="never" :header="$t('Speed')">
-          <speed />
+        <el-card :header="$t('Hours')+' '+ $t('drivers')" shadow="never">
+          <hours-driver />
         </el-card>
       </el-col>
     </el-row>
@@ -80,16 +84,9 @@ pt:
 
 <script>
 import { mapGetters } from 'vuex'
-import Events from '@/components/Events.vue'
-import Trips from '@/components/Trips.vue'
-import Kms from '@/components/Kms.vue'
-import Hours from '@/components/Hours.vue'
-import Fuel from '@/components/Fuel.vue'
-import Speed from '@/components/Speed.vue'
 
 export default {
   name: 'DashboardComponent',
-  components: { Events, Trips, Kms, Hours, Fuel, Speed },
   data () {
     return {
       pickerOptions: {

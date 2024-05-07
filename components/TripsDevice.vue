@@ -21,7 +21,7 @@ import { mapGetters } from 'vuex'
 import { GChart } from 'vue-google-charts/legacy'
 
 export default {
-  name: 'TripsChart',
+  name: 'TripsDevice',
   components: {
     GChart
   },
@@ -38,12 +38,13 @@ export default {
         colors: this.$colors
       },
       settings: {
-        packages: ['timeline']
+        packages: ['timeline'],
+        language: this.$i18n.locale
       }
     }
   },
   computed: {
-    ...mapGetters(['trips', 'devices', 'height', 'from', 'to', 'loading'])
+    ...mapGetters(['trips', 'devices', 'from', 'to', 'loading'])
   },
   watch: {
     from (from) {

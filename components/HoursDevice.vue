@@ -1,5 +1,5 @@
 <template>
-  <bar-chart
+  <pie-chart
     v-loading="loading"
     :chart-options="chartOptions"
     :chart-data="chartData"
@@ -11,7 +11,7 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'KmsChart',
+  name: 'HoursDevice',
   data () {
     return {
       chartData: {
@@ -20,12 +20,7 @@ export default {
       },
       chartOptions: {
         responsive: true,
-        maintainAspectRatio: true,
-        plugins: {
-          legend: {
-            display: false
-          }
-        }
+        maintainAspectRatio: false
       }
     }
   },
@@ -42,7 +37,7 @@ export default {
       const labels = this.devices.map(d => d.name)
       this.chartData.labels = labels.map(l => this.$t(l))
       this.chartData.datasets[0] = {
-        data: summaries.map(s => Math.round(s.distance / 1000)),
+        data: summaries.map(s => Math.round(s.engineHours / 1000 / 60 / 60)),
         backgroundColor: this.devices.map((d, i) => this.$color(i))
       }
     }
