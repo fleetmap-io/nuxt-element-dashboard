@@ -16,7 +16,7 @@ fr:
 pt:
   drivers: motoristas
   Events: Eventos
-  Vehicles: Veículos
+  vehicles: veículos
   Trips: Viagens
   Hours: Horas
   Fuel: Combustível
