@@ -39,7 +39,7 @@ export const mutations = {
     state.dateRange = dateRange
   },
   SET_DEVICES (state, devices) {
-    state.devices = devices.slice(0, 20).sort((a, b) => a.name.localeCompare(b.name))
+    state.devices = devices.slice(0, 40).sort((a, b) => a.name.localeCompare(b.name))
   },
   SET_DRIVERS (state, drivers) {
     state.drivers = drivers
