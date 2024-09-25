@@ -54,9 +54,16 @@ pt:
         </el-card>
       </el-col>
       <el-col :span="8">
-        <el-card :header="$t('Kms')+' '+ $t('vehicles')" shadow="never">
-          <kms-device />
-        </el-card>
+        <el-row>
+          <el-card :header="$t('Kms')+' '+ $t('vehicles')" shadow="never">
+            <kms-device />
+          </el-card>
+        </el-row>
+        <el-row>
+          <el-card :header="$t('Max speed') +' '+ $t('vehicles')" shadow="never">
+            <speed />
+          </el-card>
+        </el-row>
       </el-col>
       <el-col :span="8">
         <el-card :header="$t('Hours')+' '+ $t('vehicles')" shadow="never">
@@ -64,32 +71,27 @@ pt:
         </el-card>
       </el-col>
     </el-row>
-    <el-row :gutter="20">
+    <el-row :gutter="20" style="display: flex; flex-direction: row">
       <el-col :span="8">
         <el-card :header="$t('Trips') +' '+ $t('drivers')" shadow="never">
           <trips-driver />
         </el-card>
       </el-col>
       <el-col :span="8">
-        <el-card :header="$t('Kms')+' '+ $t('drivers')" shadow="never">
-          <kms-driver />
-        </el-card>
+        <el-row>
+          <el-card :header="$t('Kms')+' '+ $t('drivers')" shadow="never">
+            <kms-driver />
+          </el-card>
+        </el-row>
+        <el-row>
+          <el-card :header="$t('Max speed')+' '+ $t('drivers')" shadow="never">
+            <speed entity="drivers" />
+          </el-card>
+        </el-row>
       </el-col>
       <el-col :span="8">
         <el-card :header="$t('Hours')+' '+ $t('drivers')" shadow="never">
           <hours-driver />
-        </el-card>
-      </el-col>
-    </el-row>
-    <el-row :gutter="20">
-      <el-col :span="12">
-        <el-card :header="$t('Max speed') +' '+ $t('vehicles')" shadow="never">
-          <speed />
-        </el-card>
-      </el-col>
-      <el-col :span="12">
-        <el-card :header="$t('Max speed')+' '+ $t('drivers')" shadow="never">
-          <speed entity="drivers" />
         </el-card>
       </el-col>
     </el-row>

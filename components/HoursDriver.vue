@@ -3,7 +3,7 @@
     v-loading="loading"
     :chart-options="chartOptions"
     :chart-data="chartData"
-    :height="height"
+    :height="height*2"
   />
 </template>
 
