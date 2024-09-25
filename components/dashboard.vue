@@ -89,7 +89,7 @@ pt:
       </el-col>
       <el-col :span="12">
         <el-card :header="$t('Max speed')+' '+ $t('drivers')" shadow="never">
-          <speed entity="drivers"/>
+          <speed entity="drivers" />
         </el-card>
       </el-col>
     </el-row>
