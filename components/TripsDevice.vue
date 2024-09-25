@@ -35,7 +35,8 @@ export default {
         { type: 'date' }
       ],
       options: {
-        colors: this.$colors
+        colors: this.$colors,
+        timeline: { barLabelStyle: { fontSize: 7 } }
       },
       settings: {
         packages: ['timeline'],
