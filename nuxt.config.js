@@ -68,7 +68,7 @@ export default {
     vueI18nLoader: true
   },
   proxy: [
-    ['/api/reports', 'https://api2.pinme.io/api/reports'],
+    ['/api/reports', 'https://koutt85z24.execute-api.us-east-1.amazonaws.com/Prod/pinmeapi'],
     ['/api', 'http://traccar-eu.fleetmap.pt'],
     ['/backend', { target: 'https://koutt85z24.execute-api.us-east-1.amazonaws.com/Prod' }],
     ['/pinmeapi', { target: 'https://koutt85z24.execute-api.us-east-1.amazonaws.com/Prod/pinmeapi' }]

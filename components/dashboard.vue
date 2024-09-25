@@ -14,13 +14,15 @@ fr:
   vehicles: véhicules
   drivers: conducteurs
 pt:
+  Speed: Velocidade
   drivers: motoristas
   Events: Eventos
   vehicles: veículos
   Trips: Viagens
   Hours: Horas
   Fuel: Combustível
-  'Avg Speed': 'Velocidade Média'
+  Avg Speed: 'Velocidade Média'
+  Max speed: 'Velocidade máxima'
   unidentifiedDriver: 'Sem conductor'
   hardCornering: 'Viragem brusca'
   hardBraking: 'Travagem brusca'
@@ -76,6 +78,18 @@ pt:
       <el-col :span="8">
         <el-card :header="$t('Hours')+' '+ $t('drivers')" shadow="never">
           <hours-driver />
+        </el-card>
+      </el-col>
+    </el-row>
+    <el-row :gutter="20">
+      <el-col :span="12">
+        <el-card :header="$t('Max speed') +' '+ $t('vehicles')" shadow="never">
+          <speed />
+        </el-card>
+      </el-col>
+      <el-col :span="12">
+        <el-card :header="$t('Max speed')+' '+ $t('drivers')" shadow="never">
+          <speed entity="drivers"/>
         </el-card>
       </el-col>
     </el-row>
