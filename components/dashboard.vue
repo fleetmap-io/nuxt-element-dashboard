@@ -42,7 +42,16 @@ pt:
           :picker-options="pickerOptions"
         />
       </el-col>
-      <el-col :span="8" />
+      <el-col :span="8">
+        <el-select v-model="selectedGroup">
+          <el-option
+            v-for="item in groups"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          />
+        </el-select>
+      </el-col>
       <el-col :span="8">
         <el-progress :percentage="percentage" />
       </el-col>
@@ -163,7 +172,13 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['from', 'to', 'percentage', 'loading']),
+    ...mapGetters(['from', 'to', 'percentage', 'loading', 'groups']),
+    selectedGroup: {
+      get () { return this.$store.state.selectedGroup },
+      set (value) {
+        this.$store.commit('SET_SELECTED_GROUP', value)
+      }
+    },
     dateRange: {
       set (value) {
         this.$store.commit('SET_DATE_RANGE', value)
@@ -171,6 +186,14 @@ export default {
       get () {
         return this.$store.getters.dateRange
       }
+    }
+  },
+  watch: {
+    selectedGroup () {
+      this.$store.dispatch('initData')
+    },
+    from () {
+      this.$store.dispatch('initData')
     }
   },
   methods: {
@@ -185,11 +208,6 @@ export default {
         case 'trips':
           this.generateExcel(this.$store.getters.trips, entity)
       }
-    }
-  },
-  watch: {
-    from () {
-      this.$store.dispatch('initData')
     }
   }
 }

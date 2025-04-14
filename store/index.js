@@ -10,7 +10,8 @@ export const state = () => ({
   trips: [],
   summary: [],
   events: [],
-  percentage: 0
+  percentage: 0,
+  selectedGroup: -1
 })
 
 export const getters = {
@@ -31,7 +32,9 @@ export const getters = {
   events: state => state.events,
   session: state => state.session,
   height: () => 300,
-  percentage: state => state.percentage
+  percentage: state => state.percentage,
+  groups: state => state.groups,
+  selectedGroup: state => state.selectedGroup
 }
 
 export const mutations = {
@@ -39,7 +42,8 @@ export const mutations = {
     state.dateRange = dateRange
   },
   SET_DEVICES (state, devices) {
-    state.devices = devices.slice(0, 50).sort((a, b) => a.name.localeCompare(b.name))
+    state.allDevices = devices
+    state.devices = devices.filter(d => d.groupId === state.selectedGroup).slice(0, 50).sort((a, b) => a.name.localeCompare(b.name))
   },
   SET_DRIVERS (state, drivers) {
     state.drivers = drivers
@@ -61,15 +65,27 @@ export const mutations = {
   },
   SET_PERCENTAGE (state, percentage) {
     state.percentage = percentage
+  },
+  SET_GROUPS (state, groups) {
+    state.groups = groups
+    state.selectedGroup = groups[0] && groups[0].id
+  },
+  SET_SELECTED_GROUP (state, selected) {
+    state.selectedGroup = selected
   }
 }
 
 export const actions = {
   async initData ({ commit, dispatch }) {
     commit('SET_SESSION', await this.$axios.$get('session'))
+    commit('SET_GROUPS', await this.$axios.$get('groups'))
     commit('SET_DEVICES', await this.$axios.$get('devices'))
     commit('SET_DRIVERS', await this.$axios.$get('drivers'))
     dispatch('getData')
+  },
+  refresh ({ commit, dispatch }) {
+    commit('SET_DEVICES', state.allDevices)
+    return dispatch('getData')
   },
   async getData ({ commit, getters, state }) {
     commit('SET_LOADING', true)
