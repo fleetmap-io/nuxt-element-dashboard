@@ -49,7 +49,13 @@ pt:
     </el-row>
     <el-row :gutter="20" style="display: flex; flex-direction: row">
       <el-col :span="8">
-        <el-card :header="$t('Trips')+' '+ $t('vehicles')" shadow="never">
+        <el-card shadow="never">
+          <div slot="header" class="clearfix">
+            <span>{{ $t('Trips')+' '+ $t('vehicles') }}</span>
+            <el-button style="float: right; padding: 3px 0" type="text" icon="el-icon-document" @click="() => excel('trips')">
+              Excel
+            </el-button>
+          </div>
           <trips-device />
         </el-card>
       </el-col>
@@ -100,6 +106,7 @@ pt:
 
 <script>
 import { mapGetters } from 'vuex'
+import * as XLSX from 'xlsx'
 
 export default {
   name: 'DashboardComponent',
@@ -163,6 +170,20 @@ export default {
       },
       get () {
         return this.$store.getters.dateRange
+      }
+    }
+  },
+  methods: {
+    generateExcel (data, name) {
+      const worksheet = XLSX.utils.json_to_sheet(data)
+      const workbook = XLSX.utils.book_new()
+      XLSX.utils.book_append_sheet(workbook, worksheet, name)
+      XLSX.writeFile(workbook, name + '.xlsx', { compression: true })
+    },
+    excel (entity) {
+      switch (entity) {
+        case 'trips':
+          this.generateExcel(this.$store.getters.trips, entity)
       }
     }
   },
