@@ -43,7 +43,9 @@ export const mutations = {
   },
   SET_DEVICES (state, devices) {
     state.allDevices = devices
-    state.devices = devices.filter(d => d.groupId === state.selectedGroup).slice(0, 50).sort((a, b) => a.name.localeCompare(b.name))
+    if (devices) {
+      state.devices = devices.filter(d => d.groupId === state.selectedGroup).slice(0, 50).sort((a, b) => a.name.localeCompare(b.name))
+    }
   },
   SET_DRIVERS (state, drivers) {
     state.drivers = drivers
@@ -83,7 +85,7 @@ export const actions = {
     commit('SET_DRIVERS', await this.$axios.$get('drivers'))
     dispatch('getData')
   },
-  refresh ({ commit, dispatch }) {
+  refresh ({ commit, dispatch, state }) {
     commit('SET_DEVICES', state.allDevices)
     return dispatch('getData')
   },
