@@ -18,7 +18,6 @@ export const getters = {
   from: state => state.dateRange[0] && new Date(state.dateRange[0]).toISOString(),
   to: state => state.dateRange[1] && new Date(state.dateRange[1]).toISOString(),
   loading: state => state.loading,
-  deviceIds: state => state.devices.map(d => `deviceId=${d.id}`).join('&'),
   driver: state => (uniqueId) => {
     const result = state.drivers.find(d => d.uniqueId === uniqueId)
     return (result && result.name) || uniqueId
@@ -26,15 +25,13 @@ export const getters = {
   drivers: state => state.drivers,
   dateRange: state => state.dateRange,
   summary: state => state.summary,
-  user: state => state.user,
   trips: state => state.trips,
   devices: state => state.devices,
   events: state => state.events,
   session: state => state.session,
   height: () => 300,
   percentage: state => state.percentage,
-  groups: state => state.groups,
-  selectedGroup: state => state.selectedGroup
+  groups: state => state.groups
 }
 
 export const mutations = {
@@ -54,6 +51,15 @@ export const mutations = {
     state.trips = trips
   },
   SET_SUMMARY (state, summary) {
+    summary.forEach((s) => {
+      s.distance = Math.round(s.distance / 1000)
+      s.maxSpeed = Math.round(s.maxSpeed * 1.852)
+      s.spentFuel = Math.round(s.spentFuel)
+      s.engineHours = Math.round((s.engineHours > 0 ? s.engineHours : 0) / 1000 / 60 / 60)
+      delete s.averageSpeed
+      delete s.startOdometer
+      delete s.endOdometer
+    })
     state.summary = summary
   },
   SET_EVENTS (state, events) {

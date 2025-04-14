@@ -41,7 +41,7 @@ export default {
     convertData (summaries) {
       this.chartData.labels = this.devices.map(d => d.name)
       this.chartData.datasets[0] = {
-        data: summaries.map(s => Math.round(s.distance / 1000)),
+        data: summaries.map(s => s.distance),
         backgroundColor: this.devices.map((d, i) => this.$color(i))
       }
     }

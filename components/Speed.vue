@@ -70,7 +70,7 @@ export default {
           data: drivers.map(uniqueId => summaries
             .filter(t => t.driverUniqueId === uniqueId)
             .reduce((p, c) => Math.max(p, c.maxSpeed), 0)
-          ).map(maxSpeed => Math.round(maxSpeed * 1.852)),
+          ),
           backgroundColor: drivers.map((d, i) => this.$color(i))
         }
       }
