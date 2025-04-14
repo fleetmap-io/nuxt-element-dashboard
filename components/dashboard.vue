@@ -190,7 +190,7 @@ export default {
   },
   watch: {
     selectedGroup () {
-      this.$store.dispatch('initData')
+      this.$store.dispatch('refresh')
     },
     from () {
       this.$store.dispatch('initData')
