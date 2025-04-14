@@ -61,7 +61,7 @@ pt:
         <el-card shadow="never">
           <div slot="header" class="clearfix">
             <span>{{ $t('Trips')+' '+ $t('vehicles') }}</span>
-            <el-button style="float: right; padding: 3px 0" type="text" icon="el-icon-document" @click="() => excel('trips')">
+            <el-button style="float: right; padding: 3px 0" type="text" icon="el-icon-document" @click="() => generateExcel(trips, 'trips')">
               Excel
             </el-button>
           </div>
@@ -70,7 +70,13 @@ pt:
       </el-col>
       <el-col :span="8">
         <el-row>
-          <el-card :header="$t('Kms')+' '+ $t('vehicles')" shadow="never">
+          <el-card shadow="never">
+            <div slot="header" class="clearfix">
+              <span>{{ $t('Kms')+' '+ $t('vehicles') }}</span>
+              <el-button style="float: right; padding: 3px 0" type="text" icon="el-icon-document" @click="() => generateExcel(summary, 'kms')">
+                Excel
+              </el-button>
+            </div>
             <kms-device />
           </el-card>
         </el-row>
@@ -172,7 +178,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['from', 'to', 'percentage', 'loading', 'groups']),
+    ...mapGetters(['from', 'to', 'percentage', 'loading', 'groups', 'trips', 'summary']),
     selectedGroup: {
       get () { return this.$store.state.selectedGroup },
       set (value) {
@@ -202,12 +208,6 @@ export default {
       const workbook = XLSX.utils.book_new()
       XLSX.utils.book_append_sheet(workbook, worksheet, name)
       XLSX.writeFile(workbook, name + '.xlsx', { compression: true })
-    },
-    excel (entity) {
-      switch (entity) {
-        case 'trips':
-          this.generateExcel(this.$store.getters.trips, entity)
-      }
     }
   }
 }
