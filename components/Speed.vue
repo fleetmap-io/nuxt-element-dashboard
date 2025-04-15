@@ -58,7 +58,7 @@ export default {
         const labels = this.devices.map(d => d.name)
         this.chartData.labels = labels.map(l => this.$t(l))
         this.chartData.datasets[0] = {
-          data: summaries.map(s => Math.round(s[this.type] * 1.852)),
+          data: summaries.map(s => s[this.type]),
           backgroundColor: this.devices.map((d, i) => this.$color(i))
         }
       } else {
