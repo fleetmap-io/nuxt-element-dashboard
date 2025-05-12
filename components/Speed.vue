@@ -69,7 +69,7 @@ export default {
         this.chartData.datasets[0] = {
           data: drivers.map(uniqueId => summaries
             .filter(t => t.driverUniqueId === uniqueId)
-            .reduce((p, c) => Math.max(p, c.maxSpeed), 0)
+            .reduce((p, c) => Math.max(p, Math.round(c.maxSpeed * 1.852)), 0)
           ),
           backgroundColor: drivers.map((d, i) => this.$color(i))
         }
